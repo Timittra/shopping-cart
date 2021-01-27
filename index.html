@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button class="btn btn-default"><i id="minus" class="fas fa-minus"></i></button>
+                           <input id="numberCounter" type="text" class="form-control text-center" value="1">
+                           <button id="plus" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$ <span id="amountPhone">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -44,8 +44,8 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <input id="numberCounter1" type="text" class="form-control text-center" value="1">
+                           <button id="plus1" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
                         <h5>$59</h5>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="subtotal">1,278</span></h5>
                         <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="total">1,278</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,73 @@
          </div>
       </div>
    </section>
+
+   <script>
+      const plusSign = document.getElementById("plus");
+      plusSign.addEventListener("click", function(){
+         const numberCounter = findElement("numberCounter");
+         const finalCount = numberCounter+1;
+         document.getElementById("numberCounter").value =finalCount;
+         
+         const phoneAmount = updateSpanText("plus","amountPhone", finalCount);
+         const amountCounter1 = totalAmount("plus","subtotal", phoneAmount);
+         const amountCounter2 = totalAmount("plus","total", phoneAmount);
+
+      })
+      
+     // creating event for handling minus counter
+      const minusSign = document.getElementById("minus");
+      minusSign.addEventListener("click", function(){
+         const numberCounter = findElement("numberCounter");
+         const finalCount = numberCounter-1;
+         document.getElementById("numberCounter").value =finalCount;
+
+         const phoneAmount = updateSpanText("minus","amountPhone",finalCount);
+         const amountCounter1 = totalAmount("minus","subtotal",-1*phoneAmount);
+         const amountCounter2 = totalAmount("minus","total",-1* phoneAmount);
+ })
+
+ // counting total amount of subtotal and total.
+      function totalAmount(id1, id2, phoneAmount){
+         const subTotal = document.getElementById(id2).innerText;
+         let finalTotalAmount = 0;
+         
+         finalTotalAmount += phoneAmount;
+         // else{
+         //    finalTotalAmount -=  phoneAmount;
+            
+         //    finalTotalAmount * -1;
+         // }
+         
+         document.getElementById(id2).innerText = finalTotalAmount;
+         return finalTotalAmount;
+      }
+
+      // finding elements
+      function findElement(id){
+         const numberCounter = document.getElementById(id).value;
+         const totalCounter = parseFloat(numberCounter);
+         return totalCounter;
+      }
+
+      // counting total amount of elements
+      function updateSpanText(id1, id2, counter){
+               const current = document.getElementById(id2).innerText;
+               const currentNumber = parseFloat(current);
+               let totalAmount=0;
+               if(id1=='minus')
+               {
+                   totalAmount =currentNumber - 1219;
+               }
+               else{
+                   totalAmount =currentNumber + 1219;
+               }
+              
+               document.getElementById(id2).innerText = totalAmount;
+               return totalAmount;
+              
+        }
+   </script>
 </body>
 
 </html>
